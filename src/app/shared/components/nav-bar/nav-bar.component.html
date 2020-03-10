@@ -1,0 +1,11 @@
+<mat-toolbar color="primary">
+  <button mat-button routerLink="/">Home</button>
+  <button mat-button [matMenuTriggerFor]="characters">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+
+  <mat-menu #characters="matMenu">
+    <button mat-menu-item routerLink="/heroes">Heroes</button>
+  </mat-menu>
+
+</mat-toolbar>

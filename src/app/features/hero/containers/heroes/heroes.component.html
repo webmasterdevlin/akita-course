@@ -1,0 +1,68 @@
+<div *ngIf="editingTracker === '0'">
+  <app-form
+    [itemForm]="itemForm"
+    [text]="'SAVE'"
+    (handleSubmit)="onSave()"
+  ></app-form>
+</div>
+
+<section *ngIf="!isLoading; else loading">
+  <div
+    style="width: 100%; margin: 5rem 0; min-width: 16rem"
+    *ngFor="let hero of heroes"
+  >
+    <mat-card style="width: auto;">
+      <div *ngIf="editingTracker === hero.id">
+        <mat-card-content>
+          <app-form
+            [itemForm]="editedForm"
+            [text]="'UPDATE'"
+            (handleSubmit)="onUpdate()"
+          ></app-form>
+        </mat-card-content>
+      </div>
+      <div *ngIf="editingTracker !== hero.id">
+        <mat-card-header>
+          <mat-card-title
+            >{{ hero.firstName }} {{ hero.lastName }} is
+            {{ hero.knownAs }}</mat-card-title
+          >
+          <mat-card-subtitle>{{ hero.house }}</mat-card-subtitle>
+        </mat-card-header>
+      </div>
+      <mat-card-actions>
+        <button
+          mat-button
+          color="primary"
+          *ngIf="editingTracker === hero.id"
+          (click)="editingTracker = '0'"
+        >
+          CANCEL
+        </button>
+
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="editingTracker !== hero.id"
+          (click)="editingTracker = hero.id; editedForm.patchValue(hero)"
+        >
+          EDIT
+        </button>
+        <button
+          mat-raised-button
+          color="info"
+          (click)="goToHeroDetail(hero.id)"
+        >
+          DETAIL
+        </button>
+        <button mat-raised-button color="warn" (click)="removeHero(hero.id)">
+          DELETE
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</section>
+
+<ng-template #loading>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</ng-template>

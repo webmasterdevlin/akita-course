@@ -1,0 +1,46 @@
+<form
+  class="form"
+  [formGroup]="itemForm"
+  (ngSubmit)="onSubmit()"
+  style="margin: 4rem 0; height: auto"
+>
+  <mat-form-field class="full-width">
+    <mat-label>First Name</mat-label>
+    <input
+      matInput
+      type="text"
+      formControlName="firstName"
+      autocomplete="off"
+    />
+    <mat-error *ngIf="fn.invalid && (fn.dirty || fn.touched)">
+      <span *ngIf="fn.errors.minlength">
+        first name must be at least 4 characters long.
+      </span>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <mat-label>Last Name</mat-label>
+    <input matInput type="text" formControlName="lastName" autocomplete="off" />
+    <mat-error *ngIf="ln.invalid && (ln.dirty || ln.touched)">
+      <span *ngIf="ln.errors.minlength">
+        last name must be at least 4 characters long.
+      </span>
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <mat-label>House</mat-label>
+    <input matInput type="text" formControlName="house" autocomplete="off" />
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <mat-label>Known as</mat-label>
+    <input matInput type="text" formControlName="knownAs" autocomplete="off" />
+  </mat-form-field>
+  <button
+    mat-raised-button
+    color="primary"
+    type="submit"
+    [disabled]="fn.invalid || ln.invalid"
+  >
+    {{ text }}
+  </button>
+</form>
