@@ -7,6 +7,8 @@ import { NavBarComponent } from "./shared/components/nav-bar/nav-bar.component";
 import { SharedModule } from "./shared/shared.module";
 import { CoreModule } from "./core/core.module";
 import { AppStoreModule } from "./akita/app-store.module";
+import { AkitaNgDevtools } from "@datorama/akita-ngdevtools";
+import { environment } from "../environments/environment";
 
 @NgModule({
   declarations: [AppComponent, NavBarComponent],
@@ -16,7 +18,8 @@ import { AppStoreModule } from "./akita/app-store.module";
     AppStoreModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    SharedModule
+    SharedModule,
+    environment.production ? [] : AkitaNgDevtools
   ],
   bootstrap: [AppComponent]
 })
