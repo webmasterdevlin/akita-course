@@ -6,6 +6,8 @@ import { HeroesState, HeroModel } from "../../features/hero/hero.model";
 @StoreConfig({ name: "heroes" })
 export class HeroesStore extends EntityStore<HeroesState, HeroModel> {
   constructor() {
-    super();
+    super({
+      error: ""
+    });
   }
 }
