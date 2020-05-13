@@ -30,6 +30,7 @@ export class HeroesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.formBuilderInit();
     this.fetchHeroes();
+    this.loadingAndErrorInit();
   }
 
   // this is needed in untilDestroyed
@@ -84,5 +85,17 @@ export class HeroesComponent implements OnInit, OnDestroy {
       house: [""],
       knownAs: [""]
     });
+  }
+
+  loadingAndErrorInit() {
+    this.heroesQuery
+      .selectLoading()
+      .pipe(untilDestroyed(this))
+      .subscribe(loading => (this.isLoading = loading));
+
+    this.heroesQuery
+      .selectError()
+      .pipe(untilDestroyed(this))
+      .subscribe(error => (this.error = error));
   }
 }
