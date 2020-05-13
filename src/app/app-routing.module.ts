@@ -13,6 +13,11 @@ const routes: Routes = [
       import("./features/hero/heroes.module").then(m => m.HeroesModule)
   },
   {
+    path: "villains",
+    loadChildren: () =>
+      import("./features/villain/villains.module").then(m => m.VillainsModule)
+  },
+  {
     path: "**",
     redirectTo: ""
   }

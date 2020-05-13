@@ -1,0 +1,68 @@
+<div *ngIf="editingTracker === '0'">
+  <app-form
+    [itemForm]="itemForm"
+    [text]="'SAVE'"
+    (handleSubmit)="onSave()"
+  ></app-form>
+</div>
+
+<section *ngIf="!isLoading; else loading">
+  <div
+    style="width: 100%; margin: 5rem 0; min-width: 16rem"
+    *ngFor="let villain of villains"
+  >
+    <mat-card style="width: auto;">
+      <div *ngIf="editingTracker === villain.id">
+        <mat-card-content>
+          <app-form
+            [itemForm]="editedForm"
+            [text]="'UPDATE'"
+            (handleSubmit)="onUpdate()"
+          ></app-form>
+        </mat-card-content>
+      </div>
+      <div *ngIf="editingTracker !== villain.id">
+        <mat-card-header>
+          <mat-card-title
+            >{{ villain.firstName }} {{ villain.lastName }} is
+            {{ villain.knownAs }}</mat-card-title
+          >
+          <mat-card-subtitle>{{ villain.house }}</mat-card-subtitle>
+        </mat-card-header>
+      </div>
+      <mat-card-actions>
+        <button
+          mat-button
+          color="primary"
+          *ngIf="editingTracker === villain.id"
+          (click)="editingTracker = '0'"
+        >
+          CANCEL
+        </button>
+
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="editingTracker !== villain.id"
+          (click)="editingTracker = villain.id; editedForm.patchValue(villain)"
+        >
+          EDIT
+        </button>
+        <button
+          mat-raised-button
+          color="info"
+          (click)="goToVillainDetail(villain.id)"
+        >
+          DETAIL
+        </button>
+        <button mat-raised-button color="warn" (click)="removeVillain(villain.id)">
+          DELETE
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</section>
+
+<ng-template #loading>
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</ng-template>

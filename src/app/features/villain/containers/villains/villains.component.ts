@@ -1,19 +1,19 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { untilDestroyed } from "ngx-take-until-destroy";
-import { HeroModel } from "../../hero.model";
+import { VillainModel } from "../../villain.model";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { HeroesService } from "../../../../akita/services/heroes.service";
-import { HeroesQuery } from "../../../../akita/queries/heroes.query";
+import { VillainsService } from "../../../../akita/services/villains.service";
+import { VillainsQuery } from "../../../../akita/queries/villains.query";
 
 @Component({
-  selector: "app-heroes",
-  templateUrl: "./heroes.component.html",
-  styleUrls: ["./heroes.component.css"]
+  selector: "app-villains",
+  templateUrl: "./villains.component.html",
+  styleUrls: ["./villains.component.css"]
 })
-export class HeroesComponent implements OnInit, OnDestroy {
+export class VillainsComponent implements OnInit, OnDestroy {
   trackerReset = "0";
-  heroes: HeroModel[];
+  villains: VillainModel[];
   itemForm: FormGroup;
   editedForm: FormGroup;
   error = "";
@@ -23,28 +23,28 @@ export class HeroesComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private heroesQuery: HeroesQuery,
-    private heroService: HeroesService
+    private villainsQuery: VillainsQuery,
+    private villainService: VillainsService
   ) {}
 
   ngOnInit(): void {
     this.formBuilderInit();
-    this.fetchHeroes();
+    this.fetchVillains();
   }
 
   // this is needed in untilDestroyed
   ngOnDestroy(): void {}
 
-  fetchHeroes() {
-    this.heroService.getHeroes();
-    this.heroesQuery
+  fetchVillains() {
+    this.villainService.getVillains();
+    this.villainsQuery
       .selectAll()
       .pipe(untilDestroyed(this))
-      .subscribe(data => (this.heroes = data));
+      .subscribe(data => (this.villains = data));
   }
 
-  removeHero(id: string) {
-    this.heroService.deleteHeroById(id);
+  removeVillain(id: string) {
+    this.villainService.deleteVillainById(id);
   }
 
   onSave() {
@@ -52,7 +52,7 @@ export class HeroesComponent implements OnInit, OnDestroy {
     if (this.itemForm.invalid) {
       return;
     }
-    this.heroService.postHero(this.itemForm.value);
+    this.villainService.postVillain(this.itemForm.value);
     this.itemForm.reset();
   }
 
@@ -61,12 +61,12 @@ export class HeroesComponent implements OnInit, OnDestroy {
     if (this.editedForm.invalid) {
       return;
     }
-    this.heroService.putHero(this.editedForm.value);
+    this.villainService.putVillain(this.editedForm.value);
     this.editingTracker = this.trackerReset;
   }
 
-  goToHeroDetail(id: string) {
-    this.router.navigateByUrl("/heroes/hero-detail/" + id);
+  goToVillainDetail(id: string) {
+    this.router.navigateByUrl("/villains/villain-detail/" + id);
   }
 
   private formBuilderInit(): void {
