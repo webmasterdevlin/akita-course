@@ -9,7 +9,7 @@ export class HeroesQuery extends QueryEntity<HeroesState, HeroModel> {
     super(heroesStore);
   }
 
-  get geTotalNumber() {
+  get getTotalNumber() {
     return this.getValue().ids.length;
   }
 }
