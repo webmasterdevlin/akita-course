@@ -8,8 +8,4 @@ export class HeroesQuery extends QueryEntity<HeroesState, HeroModel> {
   constructor(protected heroesStore: HeroesStore) {
     super(heroesStore);
   }
-
-  get getTotalNumber() {
-    return this.getValue().ids.length;
-  }
 }

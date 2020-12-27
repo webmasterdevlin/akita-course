@@ -9,7 +9,7 @@ import { environment } from "../../../environments/environment";
 export class HeroesService {
   path = environment.apiUrlBase + "heroes";
 
-  constructor(private http: HttpClient, private heroStore: HeroesStore) {}
+  constructor(private http: HttpClient, private heroStore: HeroesStore) { }
 
   @transaction()
   getHeroes(): void {
