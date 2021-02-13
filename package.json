@@ -25,7 +25,7 @@
     "@angular/router": "~11.2.0",
     "@datorama/akita": "^6.0.0",
     "@datorama/akita-ngdevtools": "^6.0.0",
-    "ngx-take-until-destroy": "^5.4.0",
+    "@ngneat/until-destroy": "^8.0.3",
     "rxjs": "~6.6.3",
     "tslib": "^2.1.0",
     "zone.js": "~0.11.3"

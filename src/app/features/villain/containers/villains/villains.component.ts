@@ -1,17 +1,18 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { untilDestroyed } from "ngx-take-until-destroy";
+import { Component, OnInit } from "@angular/core";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { VillainModel } from "../../villain.model";
 import { VillainsQuery } from "src/app/akita/queries/villains.query";
 import { VillainsService } from "src/app/akita/services/villains.service";
 
+@UntilDestroy()
 @Component({
   selector: "app-villains",
   templateUrl: "./villains.component.html",
   styleUrls: ["./villains.component.css"],
 })
-export class VillainsComponent implements OnInit, OnDestroy {
+export class VillainsComponent implements OnInit {
   villains: VillainModel[];
   itemForm: FormGroup;
   editedForm: FormGroup;
@@ -31,9 +32,6 @@ export class VillainsComponent implements OnInit, OnDestroy {
     this.fetchVillains();
     this.loadingAndErrorInit();
   }
-
-  // this is needed in untilDestroyed
-  ngOnDestroy(): void {}
 
   fetchVillains() {
     this.villainService.getVillains();

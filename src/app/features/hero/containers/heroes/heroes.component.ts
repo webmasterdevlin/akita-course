@@ -1,17 +1,18 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { untilDestroyed } from "ngx-take-until-destroy";
+import { Component, OnInit } from "@angular/core";
+import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { HeroModel } from "../../hero.model";
 import { HeroesQuery } from "src/app/akita/queries/heroes.query";
 import { HeroesService } from "src/app/akita/services/heroes.service";
 
+@UntilDestroy()
 @Component({
   selector: "app-heroes",
   templateUrl: "./heroes.component.html",
   styleUrls: ["./heroes.component.css"],
 })
-export class HeroesComponent implements OnInit, OnDestroy {
+export class HeroesComponent implements OnInit {
   heroes: HeroModel[];
   itemForm: FormGroup;
   editedForm: FormGroup;
@@ -31,9 +32,6 @@ export class HeroesComponent implements OnInit, OnDestroy {
     this.fetchHeroes();
     this.loadingAndErrorInit();
   }
-
-  // this is needed in untilDestroyed
-  ngOnDestroy(): void {}
 
   fetchHeroes() {
     this.heroService.getHeroes();
