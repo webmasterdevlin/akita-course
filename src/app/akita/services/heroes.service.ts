@@ -9,12 +9,12 @@ import { environment } from "../../../environments/environment";
 export class HeroesService {
   path = environment.apiUrlBase + "heroes";
 
-  constructor(private http: HttpClient, private heroStore: HeroesStore) { }
+  constructor(private http: HttpClient, private heroStore: HeroesStore) {}
 
   @transaction()
   getHeroes(): void {
     this.http.get<HeroModel[]>(this.path).subscribe(
-      data => this.heroStore.set(data),
+      (data) => this.heroStore.set(data),
       (error: HttpErrorResponse) => {
         this.heroStore.setLoading(false);
         this.heroStore.setError(error.statusText);
@@ -36,7 +36,7 @@ export class HeroesService {
   @transaction()
   postHero(createdHero: HeroModel): void {
     this.http.post<HeroModel>(this.path, createdHero).subscribe(
-      data => this.heroStore.add(data),
+      (data) => this.heroStore.add(data),
       (error: HttpErrorResponse) => {
         this.heroStore.setLoading(false);
         this.heroStore.setError(error.statusText);
@@ -49,22 +49,11 @@ export class HeroesService {
     this.http
       .put<void>(`${this.path}/${updatedHero.id}`, updatedHero)
       .subscribe(
-        data => this.heroStore.update(updatedHero.id, { ...updatedHero }),
+        (data) => this.heroStore.update(updatedHero.id, { ...updatedHero }),
         (error: HttpErrorResponse) => {
           this.heroStore.setLoading(false);
           this.heroStore.setError(error.statusText);
         }
       );
-  }
-
-  @transaction()
-  getHeroById(id: string): void {
-    this.http.get<HeroModel>(`${this.path}/${id}`).subscribe(
-      data => this.heroStore.add(data),
-      (error: HttpErrorResponse) => {
-        this.heroStore.setLoading(false);
-        this.heroStore.setError(error.statusText);
-      }
-    );
   }
 }
