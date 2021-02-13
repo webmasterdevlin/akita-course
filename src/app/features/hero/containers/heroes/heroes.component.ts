@@ -53,6 +53,10 @@ export class HeroesComponent implements OnInit {
     this.heroService.putHero(this.editedForm.value);
   }
 
+  handleSoftDeleteHero(id: string) {
+    this.heroService.softDeleteHero(id);
+  }
+
   handleNavigateHeroDetail(id: string) {
     this.router.navigateByUrl("/heroes/hero-detail/" + id);
   }

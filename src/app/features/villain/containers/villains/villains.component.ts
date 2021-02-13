@@ -53,6 +53,10 @@ export class VillainsComponent implements OnInit {
     this.villainService.putVillain(this.editedForm.value);
   }
 
+  handleSoftDeleteVillain(id: string) {
+    this.villainService.softDeleteVillain(id);
+  }
+
   handleNavigateVillainDetail(id: string) {
     this.router.navigateByUrl("/villains/villain-detail/" + id);
   }

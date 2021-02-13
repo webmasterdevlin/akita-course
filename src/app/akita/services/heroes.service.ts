@@ -4,6 +4,7 @@ import { ID, transaction } from "@datorama/akita";
 import { HeroesStore } from "../stores/heroes.store";
 import { HeroModel } from "../../features/hero/hero.model";
 import { environment } from "../../../environments/environment";
+import { finalize } from "rxjs/operators";
 
 @Injectable()
 export class HeroesService {
@@ -13,47 +14,54 @@ export class HeroesService {
 
   @transaction()
   getHeroes(): void {
-    this.http.get<HeroModel[]>(this.path).subscribe(
-      (data) => this.heroStore.set(data),
-      (error: HttpErrorResponse) => {
-        this.heroStore.setLoading(false);
-        this.heroStore.setError(error.statusText);
-      }
-    );
+    this.heroStore.setLoading(true);
+    this.http
+      .get<HeroModel[]>(this.path)
+      .pipe(finalize(() => this.heroStore.setLoading(false)))
+      .subscribe(
+        (data) => this.heroStore.set(data),
+        (error: HttpErrorResponse) => this.heroStore.setError(error.statusText)
+      );
   }
 
   @transaction()
   deleteHero(id: ID): void {
-    this.http.delete<void>(`${this.path}/${id}`).subscribe(
-      () => this.heroStore.remove(id),
-      (error: HttpErrorResponse) => {
-        this.heroStore.setLoading(false);
-        this.heroStore.setError(error.statusText);
-      }
-    );
+    this.heroStore.setLoading(true);
+    this.http
+      .delete<void>(`${this.path}/${id}`)
+      .pipe(finalize(() => this.heroStore.setLoading(false)))
+      .subscribe(
+        () => this.heroStore.remove(id),
+        (error: HttpErrorResponse) => this.heroStore.setError(error.statusText)
+      );
   }
 
   @transaction()
   postHero(createdHero: HeroModel): void {
-    this.http.post<HeroModel>(this.path, createdHero).subscribe(
-      (data) => this.heroStore.add(data),
-      (error: HttpErrorResponse) => {
-        this.heroStore.setLoading(false);
-        this.heroStore.setError(error.statusText);
-      }
-    );
+    this.heroStore.setLoading(true);
+    this.http
+      .post<HeroModel>(this.path, createdHero)
+      .pipe(finalize(() => this.heroStore.setLoading(false)))
+      .subscribe(
+        (data) => this.heroStore.add(data),
+        (error: HttpErrorResponse) => this.heroStore.setError(error.statusText)
+      );
   }
 
   @transaction()
   putHero(updatedHero: HeroModel): void {
+    this.heroStore.setLoading(true);
     this.http
       .put<void>(`${this.path}/${updatedHero.id}`, updatedHero)
+      .pipe(finalize(() => this.heroStore.setLoading(false)))
       .subscribe(
         (data) => this.heroStore.update(updatedHero.id, { ...updatedHero }),
-        (error: HttpErrorResponse) => {
-          this.heroStore.setLoading(false);
-          this.heroStore.setError(error.statusText);
-        }
+        (error: HttpErrorResponse) => this.heroStore.setError(error.statusText)
       );
+  }
+
+  @transaction()
+  softDeleteHero(id: ID): void {
+    this.heroStore.remove(id);
   }
 }

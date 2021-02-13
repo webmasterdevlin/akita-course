@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
 import { HeroesQuery } from "src/app/akita/queries/heroes.query";
 import { VillainsQuery } from "src/app/akita/queries/villains.query";
+import { HeroesService } from "src/app/akita/services/heroes.service";
+import { VillainsService } from "src/app/akita/services/villains.service";
 
 @UntilDestroy()
 @Component({
@@ -15,14 +17,21 @@ export class NavBarComponent implements OnInit {
 
   constructor(
     private heroesQuery: HeroesQuery,
-    private villainsQuery: VillainsQuery
+    private villainsQuery: VillainsQuery,
+    private heroService: HeroesService,
+    private villainService: VillainsService
   ) {}
 
   ngOnInit(): void {
     this.fetchTotalCharacters();
   }
 
-  fetchTotalCharacters() {
+  handleLoadCharacters() {
+    this.heroService.getHeroes();
+    this.villainService.getVillains();
+  }
+
+  private fetchTotalCharacters() {
     this.heroesQuery
       .selectAll()
       .pipe(untilDestroyed(this))
