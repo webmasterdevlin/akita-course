@@ -41,19 +41,19 @@ export class VillainsComponent implements OnInit {
       .subscribe((data) => (this.villains = data));
   }
 
-  removeVillain(id: string) {
-    this.villainService.deleteVillainById(id);
+  handleDeleteVillain(id: string) {
+    this.villainService.deleteVillain(id);
   }
 
-  onSave() {
+  handlePostVillain() {
     this.villainService.postVillain(this.itemForm.value);
   }
 
-  onUpdate() {
+  handlePutVillain() {
     this.villainService.putVillain(this.editedForm.value);
   }
 
-  goToVillainDetail(id: string) {
+  handleNavigateVillainDetail(id: string) {
     this.router.navigateByUrl("/villains/villain-detail/" + id);
   }
 

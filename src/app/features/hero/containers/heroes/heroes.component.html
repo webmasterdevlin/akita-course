@@ -2,7 +2,7 @@
   <app-form
     [itemForm]="itemForm"
     [text]="'SAVE'"
-    (handleSubmit)="onSave()"
+    (handleSubmit)="handlePostHero()"
   ></app-form>
 </div>
 <app-character-list></app-character-list>
@@ -17,7 +17,7 @@
           <app-form
             [itemForm]="editedForm"
             [text]="isLoading ? 'SENDING':'UPDATE'"
-            (handleSubmit)="onUpdate()"
+            (handleSubmit)="handlePutHero()"
           ></app-form>
         </mat-card-content>
       </div>
@@ -54,11 +54,11 @@
         <button
           mat-raised-button
           color="info"
-          (click)="goToHeroDetail(hero.id)"
+          (click)="handleNavigateHeroDetail(hero.id)"
         >
           DETAIL
         </button>
-        <button mat-raised-button color="warn" (click)="removeHero(hero.id)">
+        <button mat-raised-button color="warn" (click)="handleDeleteHero(hero.id)">
           DELETE
         </button>
       </mat-card-actions>

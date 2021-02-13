@@ -20,7 +20,7 @@ export class VillainsService {
       .subscribe((data) => this.villainStore.set(data));
   }
 
-  deleteVillainById(id: ID): void {
+  deleteVillain(id: ID): void {
     this.http
       .delete<void>(`${this.path}/${id}`)
       .pipe(catchError((err: HttpErrorResponse) => throwError(err.message)))

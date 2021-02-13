@@ -23,7 +23,7 @@ export class HeroesService {
   }
 
   @transaction()
-  deleteHeroById(id: ID): void {
+  deleteHero(id: ID): void {
     this.http.delete<void>(`${this.path}/${id}`).subscribe(
       () => this.heroStore.remove(id),
       (error: HttpErrorResponse) => {

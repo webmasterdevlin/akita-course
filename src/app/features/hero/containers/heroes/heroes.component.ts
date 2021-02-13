@@ -41,19 +41,19 @@ export class HeroesComponent implements OnInit {
       .subscribe((data) => (this.heroes = data));
   }
 
-  removeHero(id: string) {
-    this.heroService.deleteHeroById(id);
+  handleDeleteHero(id: string) {
+    this.heroService.deleteHero(id);
   }
 
-  onSave() {
+  handlePostHero() {
     this.heroService.postHero(this.itemForm.value);
   }
 
-  onUpdate() {
+  handlePutHero() {
     this.heroService.putHero(this.editedForm.value);
   }
 
-  goToHeroDetail(id: string) {
+  handleNavigateHeroDetail(id: string) {
     this.router.navigateByUrl("/heroes/hero-detail/" + id);
   }
 
