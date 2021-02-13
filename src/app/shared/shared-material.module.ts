@@ -21,6 +21,7 @@ import { MatNativeDateModule } from "@angular/material/core";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { MatChipsModule } from "@angular/material/chips";
 
 @NgModule({
   exports: [
@@ -46,7 +47,8 @@ import { MatSlideToggleModule } from "@angular/material/slide-toggle";
     MatNativeDateModule,
     MatMenuModule,
     MatProgressSpinnerModule,
-    MatSlideToggleModule
-  ]
+    MatSlideToggleModule,
+    MatChipsModule,
+  ],
 })
 export class SharedMaterialModule {}

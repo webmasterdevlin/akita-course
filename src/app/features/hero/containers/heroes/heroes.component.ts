@@ -1,18 +1,17 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { untilDestroyed } from "ngx-take-until-destroy";
-import { HeroModel } from "../../hero.model";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { HeroesService } from "../../../../akita/services/heroes.service";
-import { HeroesQuery } from "../../../../akita/queries/heroes.query";
+import { HeroModel } from "../../hero.model";
+import { HeroesQuery } from "src/app/akita/queries/heroes.query";
+import { HeroesService } from "src/app/akita/services/heroes.service";
 
 @Component({
   selector: "app-heroes",
   templateUrl: "./heroes.component.html",
-  styleUrls: ["./heroes.component.css"]
+  styleUrls: ["./heroes.component.css"],
 })
 export class HeroesComponent implements OnInit, OnDestroy {
-  trackerReset = "0";
   heroes: HeroModel[];
   itemForm: FormGroup;
   editedForm: FormGroup;
@@ -41,7 +40,7 @@ export class HeroesComponent implements OnInit, OnDestroy {
     this.heroesQuery
       .selectAll()
       .pipe(untilDestroyed(this))
-      .subscribe(data => (this.heroes = data));
+      .subscribe((data) => (this.heroes = data));
   }
 
   removeHero(id: string) {
@@ -49,21 +48,11 @@ export class HeroesComponent implements OnInit, OnDestroy {
   }
 
   onSave() {
-    // stop here if form is invalid
-    if (this.itemForm.invalid) {
-      return;
-    }
     this.heroService.postHero(this.itemForm.value);
-    this.itemForm.reset();
   }
 
   onUpdate() {
-    // stop here if form is invalid
-    if (this.editedForm.invalid) {
-      return;
-    }
     this.heroService.putHero(this.editedForm.value);
-    this.editingTracker = this.trackerReset;
   }
 
   goToHeroDetail(id: string) {
@@ -75,7 +64,7 @@ export class HeroesComponent implements OnInit, OnDestroy {
       firstName: ["", [Validators.required, Validators.minLength(4)]],
       lastName: ["", [Validators.required, Validators.minLength(4)]],
       house: [""],
-      knownAs: [""]
+      knownAs: [""],
     });
 
     this.editedForm = this.fb.group({
@@ -83,7 +72,7 @@ export class HeroesComponent implements OnInit, OnDestroy {
       firstName: ["", [Validators.required, Validators.minLength(4)]],
       lastName: ["", [Validators.required, Validators.minLength(4)]],
       house: [""],
-      knownAs: [""]
+      knownAs: [""],
     });
   }
 
@@ -91,11 +80,11 @@ export class HeroesComponent implements OnInit, OnDestroy {
     this.heroesQuery
       .selectLoading()
       .pipe(untilDestroyed(this))
-      .subscribe(loading => (this.isLoading = loading));
+      .subscribe((loading) => (this.isLoading = loading));
 
     this.heroesQuery
       .selectError()
       .pipe(untilDestroyed(this))
-      .subscribe(error => (this.error = error));
+      .subscribe((error) => (this.error = error));
   }
 }

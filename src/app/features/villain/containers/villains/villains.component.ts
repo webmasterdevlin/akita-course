@@ -1,18 +1,17 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { untilDestroyed } from "ngx-take-until-destroy";
-import { VillainModel } from "../../villain.model";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { VillainsService } from "../../../../akita/services/villains.service";
-import { VillainsQuery } from "../../../../akita/queries/villains.query";
+import { VillainModel } from "../../villain.model";
+import { VillainsQuery } from "src/app/akita/queries/villains.query";
+import { VillainsService } from "src/app/akita/services/villains.service";
 
 @Component({
   selector: "app-villains",
   templateUrl: "./villains.component.html",
-  styleUrls: ["./villains.component.css"]
+  styleUrls: ["./villains.component.css"],
 })
 export class VillainsComponent implements OnInit, OnDestroy {
-  trackerReset = "0";
   villains: VillainModel[];
   itemForm: FormGroup;
   editedForm: FormGroup;
@@ -30,6 +29,7 @@ export class VillainsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.formBuilderInit();
     this.fetchVillains();
+    this.loadingAndErrorInit();
   }
 
   // this is needed in untilDestroyed
@@ -40,7 +40,7 @@ export class VillainsComponent implements OnInit, OnDestroy {
     this.villainsQuery
       .selectAll()
       .pipe(untilDestroyed(this))
-      .subscribe(data => (this.villains = data));
+      .subscribe((data) => (this.villains = data));
   }
 
   removeVillain(id: string) {
@@ -48,21 +48,11 @@ export class VillainsComponent implements OnInit, OnDestroy {
   }
 
   onSave() {
-    // stop here if form is invalid
-    if (this.itemForm.invalid) {
-      return;
-    }
     this.villainService.postVillain(this.itemForm.value);
-    this.itemForm.reset();
   }
 
   onUpdate() {
-    // stop here if form is invalid
-    if (this.editedForm.invalid) {
-      return;
-    }
     this.villainService.putVillain(this.editedForm.value);
-    this.editingTracker = this.trackerReset;
   }
 
   goToVillainDetail(id: string) {
@@ -74,7 +64,7 @@ export class VillainsComponent implements OnInit, OnDestroy {
       firstName: ["", [Validators.required, Validators.minLength(4)]],
       lastName: ["", [Validators.required, Validators.minLength(4)]],
       house: [""],
-      knownAs: [""]
+      knownAs: [""],
     });
 
     this.editedForm = this.fb.group({
@@ -82,7 +72,19 @@ export class VillainsComponent implements OnInit, OnDestroy {
       firstName: ["", [Validators.required, Validators.minLength(4)]],
       lastName: ["", [Validators.required, Validators.minLength(4)]],
       house: [""],
-      knownAs: [""]
+      knownAs: [""],
     });
+  }
+
+  loadingAndErrorInit() {
+    this.villainsQuery
+      .selectLoading()
+      .pipe(untilDestroyed(this))
+      .subscribe((loading) => (this.isLoading = loading));
+
+    this.villainsQuery
+      .selectError()
+      .pipe(untilDestroyed(this))
+      .subscribe((error) => (this.error = error));
   }
 }
