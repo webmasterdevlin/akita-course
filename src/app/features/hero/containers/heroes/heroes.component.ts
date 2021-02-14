@@ -74,7 +74,7 @@ export class HeroesComponent implements OnInit {
     });
   }
 
-  getIsLoading() {
+  private getIsLoading() {
     this.isLoading$ = this.heroesQuery.isLoading();
   }
 }

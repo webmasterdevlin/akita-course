@@ -20,10 +20,6 @@ export class VillainsQuery extends QueryEntity<VillainsState, VillainModel> {
     return this.select((state) => state.loading);
   }
 
-  errorMessage() {
-    return this.select((state) => state.error);
-  }
-
   totalVillains() {
     return this.selectCount();
   }

@@ -27,14 +27,9 @@ export class VillainsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.formBuilderInit();
     this.fetchVillains();
     this.getIsLoading();
-  }
-
-  fetchVillains() {
-    this.villainService.getVillains();
-    this.villains$ = this.villainsQuery.selectVillains();
+    this.formBuilderInit();
   }
 
   handleDeleteVillain(id: string) {
@@ -57,6 +52,15 @@ export class VillainsComponent implements OnInit {
     this.router.navigateByUrl("/villains/villain-detail/" + id);
   }
 
+  private fetchVillains() {
+    this.villainService.getVillains();
+    this.villains$ = this.villainsQuery.selectVillains();
+  }
+
+  private getIsLoading() {
+    this.isLoading$ = this.villainsQuery.isLoading();
+  }
+
   private formBuilderInit(): void {
     this.itemForm = this.fb.group({
       firstName: ["", [Validators.required, Validators.minLength(4)]],
@@ -72,9 +76,5 @@ export class VillainsComponent implements OnInit {
       house: [""],
       knownAs: [""],
     });
-  }
-
-  getIsLoading() {
-    this.isLoading$ = this.villainsQuery.isLoading();
   }
 }

@@ -18,10 +18,6 @@ export class HeroesQuery extends QueryEntity<HeroesState, HeroModel> {
     return this.select((state) => state.loading);
   }
 
-  errorMessage() {
-    return this.select((state) => state.error);
-  }
-
   totalHeroes() {
     return this.selectCount();
   }
