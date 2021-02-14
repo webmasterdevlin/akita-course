@@ -4,7 +4,7 @@ import { ID, transaction } from "@datorama/akita";
 import { VillainsStore } from "../stores/villains.store";
 import { VillainModel } from "../../features/villain/villain.model";
 import { environment } from "../../../environments/environment";
-import { map, catchError, finalize } from "rxjs/operators";
+import { catchError, finalize } from "rxjs/operators";
 import { of } from "rxjs";
 
 @Injectable()
@@ -18,14 +18,10 @@ export class VillainsService {
     this.http
       .get<VillainModel[]>(this.path)
       .pipe(
-        map((data) => this.villainStore.set(data)),
-        catchError((error) => {
-          this.villainStore.setError(error.statusText);
-          return of([]);
-        }),
+        catchError((error) => of([])),
         finalize(() => this.villainStore.setLoading(false))
       )
-      .subscribe();
+      .subscribe((data) => this.villainStore.set(data));
   }
 
   deleteVillain(id: ID): void {
@@ -33,14 +29,10 @@ export class VillainsService {
     this.http
       .delete<void>(`${this.path}/${id}`)
       .pipe(
-        map(() => this.villainStore.remove(id)),
-        catchError((error) => {
-          this.villainStore.setError(error.statusText);
-          return of([]);
-        }),
+        catchError((error) => of([])),
         finalize(() => this.villainStore.setLoading(false))
       )
-      .subscribe();
+      .subscribe(() => this.villainStore.remove(id));
   }
 
   postVillain(createdVillain: VillainModel): void {
@@ -48,14 +40,10 @@ export class VillainsService {
     this.http
       .post<VillainModel>(this.path, createdVillain)
       .pipe(
-        map((data) => this.villainStore.add(data)),
-        catchError((error) => {
-          this.villainStore.setError(error.statusText);
-          return of([]);
-        }),
+        catchError((error) => of([])),
         finalize(() => this.villainStore.setLoading(false))
       )
-      .subscribe();
+      .subscribe((data) => this.villainStore.add(data));
   }
 
   putVillain(updatedVillain: VillainModel): void {
@@ -63,16 +51,12 @@ export class VillainsService {
     this.http
       .put<void>(`${this.path}/${updatedVillain.id}`, updatedVillain)
       .pipe(
-        map((data) =>
-          this.villainStore.update(updatedVillain.id, { ...updatedVillain })
-        ),
-        catchError((error) => {
-          this.villainStore.setError(error.statusText);
-          return of([]);
-        }),
+        catchError((error) => of([])),
         finalize(() => this.villainStore.setLoading(false))
       )
-      .subscribe();
+      .subscribe(() =>
+        this.villainStore.update(updatedVillain.id, { ...updatedVillain })
+      );
   }
 
   @transaction()
