@@ -19,8 +19,8 @@ import { environment } from "../environments/environment";
     AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
-    environment.production ? [] : AkitaNgDevtools
+    environment.production ? [] : [AkitaNgDevtools.forRoot()],
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}
