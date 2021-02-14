@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { HeroModel } from "src/app/features/hero/hero.model";
-import { VillainModel } from "src/app/features/villain/villain.model";
 import { HeroesQuery } from "src/app/akita/queries/heroes.query";
+import { VillainModel } from "src/app/features/villain/villain.model";
 import { VillainsQuery } from "src/app/akita/queries/villains.query";
 import { Observable } from "rxjs";
 
