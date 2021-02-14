@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { VillainModel } from "../../villain.model";
@@ -7,7 +6,6 @@ import { VillainsQuery } from "src/app/akita/queries/villains.query";
 import { VillainsService } from "src/app/akita/services/villains.service";
 import { Observable } from "rxjs";
 
-@UntilDestroy()
 @Component({
   selector: "app-villains",
   templateUrl: "./villains.component.html",

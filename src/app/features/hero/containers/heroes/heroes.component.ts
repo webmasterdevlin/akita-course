@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { UntilDestroy } from "@ngneat/until-destroy";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { HeroModel } from "../../hero.model";
@@ -7,7 +6,6 @@ import { HeroesQuery } from "src/app/akita/queries/heroes.query";
 import { HeroesService } from "src/app/akita/services/heroes.service";
 import { Observable } from "rxjs";
 
-@UntilDestroy()
 @Component({
   selector: "app-heroes",
   templateUrl: "./heroes.component.html",
