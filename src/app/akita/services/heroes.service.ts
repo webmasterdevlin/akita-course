@@ -1,9 +1,9 @@
 import { Injectable } from "@angular/core";
+import { environment } from "../../../environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { ID, transaction } from "@datorama/akita";
 import { HeroesStore } from "../stores/heroes.store";
 import { HeroModel } from "../../features/hero/hero.model";
-import { environment } from "../../../environments/environment";
 import { catchError, finalize } from "rxjs/operators";
 import { of } from "rxjs";
 
