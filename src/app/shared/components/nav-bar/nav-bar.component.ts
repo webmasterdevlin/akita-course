@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
-import { HeroesQuery } from "src/app/akita/queries/heroes.query";
-import { VillainsQuery } from "src/app/akita/queries/villains.query";
 import { HeroesService } from "src/app/akita/services/heroes.service";
+import { HeroesQuery } from "src/app/akita/queries/heroes.query";
 import { VillainsService } from "src/app/akita/services/villains.service";
+import { VillainsQuery } from "src/app/akita/queries/villains.query";
 
 @Component({
   selector: "app-nav-bar",
@@ -15,10 +15,10 @@ export class NavBarComponent implements OnInit {
   totalVillains$: Observable<number>;
 
   constructor(
-    private heroesQuery: HeroesQuery,
-    private villainsQuery: VillainsQuery,
     private heroService: HeroesService,
-    private villainService: VillainsService
+    private heroesQuery: HeroesQuery,
+    private villainService: VillainsService,
+    private villainsQuery: VillainsQuery
   ) {}
 
   ngOnInit(): void {
