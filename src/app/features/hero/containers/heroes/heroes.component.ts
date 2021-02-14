@@ -14,7 +14,6 @@ import { Observable } from "rxjs";
 export class HeroesComponent implements OnInit {
   heroes$: Observable<HeroModel[]>;
   isLoading$: Observable<boolean>;
-  error$: Observable<string>;
 
   itemForm: FormGroup;
   editedForm: FormGroup;
@@ -30,7 +29,7 @@ export class HeroesComponent implements OnInit {
   ngOnInit(): void {
     this.formBuilderInit();
     this.fetchHeroes();
-    this.loadingAndErrorInit();
+    this.getIsLoading();
   }
 
   fetchHeroes() {
@@ -75,8 +74,7 @@ export class HeroesComponent implements OnInit {
     });
   }
 
-  loadingAndErrorInit() {
+  getIsLoading() {
     this.isLoading$ = this.heroesQuery.isLoading();
-    this.error$ = this.heroesQuery.errorMessage();
   }
 }

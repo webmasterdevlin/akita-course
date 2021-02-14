@@ -14,7 +14,6 @@ import { Observable } from "rxjs";
 export class VillainsComponent implements OnInit {
   villains$: Observable<VillainModel[]>;
   isLoading$: Observable<boolean>;
-  error$: Observable<string>;
 
   itemForm: FormGroup;
   editedForm: FormGroup;
@@ -30,7 +29,7 @@ export class VillainsComponent implements OnInit {
   ngOnInit(): void {
     this.formBuilderInit();
     this.fetchVillains();
-    this.loadingAndErrorInit();
+    this.getIsLoading();
   }
 
   fetchVillains() {
@@ -75,8 +74,7 @@ export class VillainsComponent implements OnInit {
     });
   }
 
-  loadingAndErrorInit() {
+  getIsLoading() {
     this.isLoading$ = this.villainsQuery.isLoading();
-    this.error$ = this.villainsQuery.errorMessage();
   }
 }
