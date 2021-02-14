@@ -1,11 +1,11 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
-import { of, throwError } from "rxjs";
-import { catchError, finalize, map } from "rxjs/operators";
+import { HttpClient } from "@angular/common/http";
 import { ID, transaction } from "@datorama/akita";
 import { VillainsStore } from "../stores/villains.store";
 import { VillainModel } from "../../features/villain/villain.model";
 import { environment } from "../../../environments/environment";
+import { map, catchError, finalize } from "rxjs/operators";
+import { of } from "rxjs";
 
 @Injectable()
 export class VillainsService {
@@ -21,7 +21,7 @@ export class VillainsService {
         map((data) => this.villainStore.set(data)),
         catchError((error) => {
           this.villainStore.setError(error.statusText);
-          return throwError(error);
+          return of([]);
         }),
         finalize(() => this.villainStore.setLoading(false))
       )
@@ -36,7 +36,7 @@ export class VillainsService {
         map(() => this.villainStore.remove(id)),
         catchError((error) => {
           this.villainStore.setError(error.statusText);
-          return throwError(error);
+          return of([]);
         }),
         finalize(() => this.villainStore.setLoading(false))
       )
@@ -51,7 +51,7 @@ export class VillainsService {
         map((data) => this.villainStore.add(data)),
         catchError((error) => {
           this.villainStore.setError(error.statusText);
-          return throwError(error);
+          return of([]);
         }),
         finalize(() => this.villainStore.setLoading(false))
       )
@@ -68,7 +68,7 @@ export class VillainsService {
         ),
         catchError((error) => {
           this.villainStore.setError(error.statusText);
-          return throwError(error);
+          return of([]);
         }),
         finalize(() => this.villainStore.setLoading(false))
       )

@@ -1,10 +1,11 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { ID, transaction } from "@datorama/akita";
 import { HeroesStore } from "../stores/heroes.store";
 import { HeroModel } from "../../features/hero/hero.model";
 import { environment } from "../../../environments/environment";
-import { finalize } from "rxjs/operators";
+import { map, catchError, finalize } from "rxjs/operators";
+import { of } from "rxjs";
 
 @Injectable()
 export class HeroesService {
@@ -17,11 +18,15 @@ export class HeroesService {
     this.heroStore.setLoading(true);
     this.http
       .get<HeroModel[]>(this.path)
-      .pipe(finalize(() => this.heroStore.setLoading(false)))
-      .subscribe(
-        (data) => this.heroStore.set(data),
-        (error: HttpErrorResponse) => this.heroStore.setError(error.statusText)
-      );
+      .pipe(
+        map((data) => this.heroStore.set(data)),
+        catchError((error) => {
+          this.heroStore.setError(error.statusText);
+          return of([]);
+        }),
+        finalize(() => this.heroStore.setLoading(false))
+      )
+      .subscribe();
   }
 
   @transaction()
@@ -29,11 +34,15 @@ export class HeroesService {
     this.heroStore.setLoading(true);
     this.http
       .delete<void>(`${this.path}/${id}`)
-      .pipe(finalize(() => this.heroStore.setLoading(false)))
-      .subscribe(
-        () => this.heroStore.remove(id),
-        (error: HttpErrorResponse) => this.heroStore.setError(error.statusText)
-      );
+      .pipe(
+        map(() => this.heroStore.remove(id)),
+        catchError((error) => {
+          this.heroStore.setError(error.statusText);
+          return of([]);
+        }),
+        finalize(() => this.heroStore.setLoading(false))
+      )
+      .subscribe();
   }
 
   @transaction()
@@ -41,11 +50,15 @@ export class HeroesService {
     this.heroStore.setLoading(true);
     this.http
       .post<HeroModel>(this.path, createdHero)
-      .pipe(finalize(() => this.heroStore.setLoading(false)))
-      .subscribe(
-        (data) => this.heroStore.add(data),
-        (error: HttpErrorResponse) => this.heroStore.setError(error.statusText)
-      );
+      .pipe(
+        map((data) => this.heroStore.add(data)),
+        catchError((error) => {
+          this.heroStore.setError(error.statusText);
+          return of([]);
+        }),
+        finalize(() => this.heroStore.setLoading(false))
+      )
+      .subscribe();
   }
 
   @transaction()
@@ -53,11 +66,17 @@ export class HeroesService {
     this.heroStore.setLoading(true);
     this.http
       .put<void>(`${this.path}/${updatedHero.id}`, updatedHero)
-      .pipe(finalize(() => this.heroStore.setLoading(false)))
-      .subscribe(
-        (data) => this.heroStore.update(updatedHero.id, { ...updatedHero }),
-        (error: HttpErrorResponse) => this.heroStore.setError(error.statusText)
-      );
+      .pipe(
+        map((data) =>
+          this.heroStore.update(updatedHero.id, { ...updatedHero })
+        ),
+        catchError((error) => {
+          this.heroStore.setError(error.statusText);
+          return of([]);
+        }),
+        finalize(() => this.heroStore.setLoading(false))
+      )
+      .subscribe();
   }
 
   @transaction()
