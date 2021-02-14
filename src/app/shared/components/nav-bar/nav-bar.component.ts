@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { Observable } from "rxjs";
 import { HeroesQuery } from "src/app/akita/queries/heroes.query";
 import { VillainsQuery } from "src/app/akita/queries/villains.query";
 import { HeroesService } from "src/app/akita/services/heroes.service";
@@ -12,8 +13,8 @@ import { VillainsService } from "src/app/akita/services/villains.service";
   styleUrls: ["./nav-bar.component.css"],
 })
 export class NavBarComponent implements OnInit {
-  totalHeroes = 0;
-  totalVillains = 0;
+  totalHeroes$: Observable<number>;
+  totalVillains$: Observable<number>;
 
   constructor(
     private heroesQuery: HeroesQuery,
@@ -32,14 +33,7 @@ export class NavBarComponent implements OnInit {
   }
 
   private fetchTotalCharacters() {
-    this.heroesQuery
-      .selectAll()
-      .pipe(untilDestroyed(this))
-      .subscribe((heroes) => (this.totalHeroes = heroes.length));
-
-    this.villainsQuery
-      .selectAll()
-      .pipe(untilDestroyed(this))
-      .subscribe((villains) => (this.totalVillains = villains.length));
+    this.totalHeroes$ = this.heroesQuery.totalHeroes();
+    this.totalVillains$ = this.villainsQuery.totalVillains();
   }
 }

@@ -1,10 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { UntilDestroy } from "@ngneat/until-destroy";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { VillainModel } from "../../villain.model";
 import { VillainsQuery } from "src/app/akita/queries/villains.query";
 import { VillainsService } from "src/app/akita/services/villains.service";
+import { Observable } from "rxjs";
 
 @UntilDestroy()
 @Component({
@@ -13,11 +14,12 @@ import { VillainsService } from "src/app/akita/services/villains.service";
   styleUrls: ["./villains.component.css"],
 })
 export class VillainsComponent implements OnInit {
-  villains: VillainModel[];
+  villains$: Observable<VillainModel[]>;
+  isLoading$: Observable<boolean>;
+  error$: Observable<string>;
+
   itemForm: FormGroup;
   editedForm: FormGroup;
-  error = "";
-  isLoading = false;
   editingTracker = "0";
 
   constructor(
@@ -35,10 +37,7 @@ export class VillainsComponent implements OnInit {
 
   fetchVillains() {
     this.villainService.getVillains();
-    this.villainsQuery
-      .selectAll()
-      .pipe(untilDestroyed(this))
-      .subscribe((data) => (this.villains = data));
+    this.villains$ = this.villainsQuery.selectVillains();
   }
 
   handleDeleteVillain(id: string) {
@@ -79,14 +78,7 @@ export class VillainsComponent implements OnInit {
   }
 
   loadingAndErrorInit() {
-    this.villainsQuery
-      .selectLoading()
-      .pipe(untilDestroyed(this))
-      .subscribe((loading) => (this.isLoading = loading));
-
-    this.villainsQuery
-      .selectError()
-      .pipe(untilDestroyed(this))
-      .subscribe((error) => (this.error = error));
+    this.isLoading$ = this.villainsQuery.isLoading();
+    this.error$ = this.villainsQuery.errorMessage();
   }
 }

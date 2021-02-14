@@ -9,14 +9,14 @@
 <section>
   <div
     style="width: 100%; margin: 5rem 0; min-width: 16rem"
-    *ngFor="let villain of villains"
+    *ngFor="let villain of villains$ | async"
   >
     <mat-card style="width: auto">
       <div *ngIf="editingTracker === villain.id">
         <mat-card-content>
           <app-form
             [itemForm]="editedForm"
-            [text]="isLoading ? 'SENDING' : 'UPDATE'"
+            [text]="(isLoading$ | async) ? 'SENDING' : 'UPDATE'"
             (handleSubmit)="handlePutVillain()"
           ></app-form>
         </mat-card-content>
@@ -30,7 +30,9 @@
           <mat-card-subtitle>{{ villain.house }}</mat-card-subtitle>
         </mat-card-header>
       </div>
-      <mat-card-content *ngIf="isLoading && editingTracker === villain.id">
+      <mat-card-content
+        *ngIf="(isLoading$ | async) && editingTracker === villain.id"
+      >
         <mat-progress-bar mode="indeterminate"></mat-progress-bar>
       </mat-card-content>
       <mat-card-actions>

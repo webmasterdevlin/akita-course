@@ -26,16 +26,10 @@ export class CharacterListComponent implements OnInit {
   }
 
   fetchHeroes() {
-    this.heroesQuery
-      .selectAll()
-      .pipe(untilDestroyed(this))
-      .subscribe((data) => (this.heroes = data));
+    this.heroesQuery.selectHeroes();
   }
 
   fetchVillains() {
-    this.villainsQuery
-      .selectAll()
-      .pipe(untilDestroyed(this))
-      .subscribe((data) => (this.villains = data));
+    this.villainsQuery.selectVillains();
   }
 }

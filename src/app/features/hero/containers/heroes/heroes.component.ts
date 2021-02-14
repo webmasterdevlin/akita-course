@@ -1,10 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { UntilDestroy, untilDestroyed } from "@ngneat/until-destroy";
+import { UntilDestroy } from "@ngneat/until-destroy";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { HeroModel } from "../../hero.model";
 import { HeroesQuery } from "src/app/akita/queries/heroes.query";
 import { HeroesService } from "src/app/akita/services/heroes.service";
+import { Observable } from "rxjs";
 
 @UntilDestroy()
 @Component({
@@ -13,11 +14,12 @@ import { HeroesService } from "src/app/akita/services/heroes.service";
   styleUrls: ["./heroes.component.css"],
 })
 export class HeroesComponent implements OnInit {
-  heroes: HeroModel[];
+  heroes$: Observable<HeroModel[]>;
+  isLoading$: Observable<boolean>;
+  error$: Observable<string>;
+
   itemForm: FormGroup;
   editedForm: FormGroup;
-  error = "";
-  isLoading = false;
   editingTracker = "0";
 
   constructor(
@@ -35,10 +37,7 @@ export class HeroesComponent implements OnInit {
 
   fetchHeroes() {
     this.heroService.getHeroes();
-    this.heroesQuery
-      .selectAll()
-      .pipe(untilDestroyed(this))
-      .subscribe((data) => (this.heroes = data));
+    this.heroes$ = this.heroesQuery.selectHeroes();
   }
 
   handleDeleteHero(id: string) {
@@ -79,14 +78,7 @@ export class HeroesComponent implements OnInit {
   }
 
   loadingAndErrorInit() {
-    this.heroesQuery
-      .selectLoading()
-      .pipe(untilDestroyed(this))
-      .subscribe((loading) => (this.isLoading = loading));
-
-    this.heroesQuery
-      .selectError()
-      .pipe(untilDestroyed(this))
-      .subscribe((error) => (this.error = error));
+    this.isLoading$ = this.heroesQuery.isLoading();
+    this.error$ = this.heroesQuery.errorMessage();
   }
 }
