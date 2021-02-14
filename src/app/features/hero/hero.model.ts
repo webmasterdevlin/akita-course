@@ -9,4 +9,3 @@ export type HeroModel = {
 };
 
 export interface HeroesState extends EntityState<HeroModel> {}
-
