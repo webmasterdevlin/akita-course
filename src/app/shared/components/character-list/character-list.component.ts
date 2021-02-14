@@ -3,6 +3,7 @@ import { HeroModel } from "src/app/features/hero/hero.model";
 import { VillainModel } from "src/app/features/villain/villain.model";
 import { HeroesQuery } from "src/app/akita/queries/heroes.query";
 import { VillainsQuery } from "src/app/akita/queries/villains.query";
+import { Observable } from "rxjs";
 
 @Component({
   selector: "app-character-list",
@@ -10,8 +11,8 @@ import { VillainsQuery } from "src/app/akita/queries/villains.query";
   styleUrls: ["./character-list.component.css"],
 })
 export class CharacterListComponent implements OnInit {
-  heroes: HeroModel[];
-  villains: VillainModel[];
+  heroes$: Observable<HeroModel[]>;
+  villains$: Observable<VillainModel[]>;
 
   constructor(
     private heroesQuery: HeroesQuery,
@@ -24,10 +25,10 @@ export class CharacterListComponent implements OnInit {
   }
 
   fetchHeroes() {
-    this.heroesQuery.selectHeroes();
+    this.heroes$ = this.heroesQuery.selectHeroes();
   }
 
   fetchVillains() {
-    this.villainsQuery.selectVillains();
+    this.villains$ = this.villainsQuery.selectVillains();
   }
 }
