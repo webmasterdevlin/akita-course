@@ -27,14 +27,9 @@ export class HeroesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.formBuilderInit();
     this.fetchHeroes();
     this.getIsLoading();
-  }
-
-  fetchHeroes() {
-    this.heroService.getHeroes();
-    this.heroes$ = this.heroesQuery.selectHeroes();
+    this.formBuilderInit();
   }
 
   handleDeleteHero(id: string) {
@@ -57,6 +52,15 @@ export class HeroesComponent implements OnInit {
     this.router.navigateByUrl("/heroes/hero-detail/" + id);
   }
 
+  private fetchHeroes() {
+    this.heroService.getHeroes();
+    this.heroes$ = this.heroesQuery.selectHeroes();
+  }
+
+  private getIsLoading() {
+    this.isLoading$ = this.heroesQuery.isLoading();
+  }
+
   private formBuilderInit(): void {
     this.itemForm = this.fb.group({
       firstName: ["", [Validators.required, Validators.minLength(4)]],
@@ -72,9 +76,5 @@ export class HeroesComponent implements OnInit {
       house: [""],
       knownAs: [""],
     });
-  }
-
-  private getIsLoading() {
-    this.isLoading$ = this.heroesQuery.isLoading();
   }
 }
