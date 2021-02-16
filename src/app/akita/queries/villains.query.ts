@@ -16,11 +16,10 @@ export class VillainsQuery extends QueryEntity<VillainsState, VillainModel> {
     return this.selectAll();
   }
 
-  isLoading() {
+  selectIsLoading() {
     return this.select((state) => state.loading);
   }
-
-  totalVillains() {
+  selectTotalVillains() {
     return this.selectCount();
   }
 }

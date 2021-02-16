@@ -58,7 +58,7 @@ export class VillainsComponent implements OnInit {
   }
 
   private getIsLoading() {
-    this.isLoading$ = this.villainsQuery.isLoading();
+    this.isLoading$ = this.villainsQuery.selectIsLoading();
   }
 
   private formBuilderInit(): void {

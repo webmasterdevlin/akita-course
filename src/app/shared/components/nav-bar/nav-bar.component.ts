@@ -31,7 +31,7 @@ export class NavBarComponent implements OnInit {
   }
 
   private fetchTotalCharacters() {
-    this.totalHeroes$ = this.heroesQuery.totalHeroes();
-    this.totalVillains$ = this.villainsQuery.totalVillains();
+    this.totalHeroes$ = this.heroesQuery.selectTotalHeroes();
+    this.totalVillains$ = this.villainsQuery.selectTotalVillains();
   }
 }

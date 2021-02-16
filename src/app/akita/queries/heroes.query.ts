@@ -13,11 +13,11 @@ export class HeroesQuery extends QueryEntity<HeroesState, HeroModel> {
     return this.selectAll();
   }
 
-  isLoading() {
+  selectIsLoading() {
     return this.select((state) => state.loading);
   }
 
-  totalHeroes() {
+  selectTotalHeroes() {
     return this.selectCount();
   }
 }

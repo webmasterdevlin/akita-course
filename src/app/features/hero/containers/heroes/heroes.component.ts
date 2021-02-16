@@ -58,7 +58,7 @@ export class HeroesComponent implements OnInit {
   }
 
   private getIsLoading() {
-    this.isLoading$ = this.heroesQuery.isLoading();
+    this.isLoading$ = this.heroesQuery.selectIsLoading();
   }
 
   private formBuilderInit(): void {
