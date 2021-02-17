@@ -1,11 +1,9 @@
-import {HeroesQuery} from './heroes.query';
-import {HeroesStore} from '../stores/heroes.store';
-import {HeroModel} from '../../features/hero/hero.model';
+import { HeroesQuery } from "./heroes.query";
+import { HeroesStore } from "../stores/heroes.store";
 
-describe("HeroesStore",() => {
-  let query : HeroesQuery;
-  let store : HeroesStore;
-
+describe("HeroesStore", () => {
+  let query: HeroesQuery;
+  let store: HeroesStore;
 
   beforeEach(() => {
     store = new HeroesStore();
@@ -13,18 +11,17 @@ describe("HeroesStore",() => {
   });
 
   it("should test selectHeroes method", () => {
-    spyOn(query, 'selectHeroes');
+    spyOn(query, "selectHeroes");
     query.selectHeroes();
 
     expect(query.selectHeroes).toHaveBeenCalled();
     expect(query.selectHeroes.length).toEqual(0);
   });
 
-  it("should test isLoading method", () => {
-       spyOn(query, 'selectHeroes');
-    query.selectHeroes();
+  it("should test selectIsLoading method", () => {
+    spyOn(query, "selectIsLoading");
+    query.selectIsLoading();
 
-    expect(query.selectHeroes).toHaveBeenCalled();
-    expect(query.selectHeroes.length).toEqual(0);
-  })
-})
+    expect(query.selectIsLoading).toHaveBeenCalled();
+  });
+});

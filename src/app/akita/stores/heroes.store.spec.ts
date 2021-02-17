@@ -15,6 +15,12 @@ describe("HeroesStore",() => {
     store = new HeroesStore();
   });
 
+  it("should test setLoading method", () => {
+    spyOn(store, 'setLoading');
+    store.setLoading(true);
+    expect(store.setLoading).toHaveBeenCalled();
+  });
+
   it("should test add method", () => {
     spyOn(store, 'add');
     store.add(hero);
@@ -25,5 +31,12 @@ describe("HeroesStore",() => {
     spyOn(store, 'remove');
     store.remove(hero.id);
     expect(store.remove).toHaveBeenCalled();
-  })
+  });
+
+  it("should test update method", () => {
+    spyOn(store, 'update');
+    store.update(hero.id, {...hero});
+    expect(store.update).toHaveBeenCalled();
+  });
+
 })
