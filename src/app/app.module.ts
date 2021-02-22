@@ -15,10 +15,10 @@ import { environment } from "../environments/environment";
   imports: [
     BrowserModule,
     CoreModule,
+    AppRoutingModule,
     BrowserAnimationsModule,
     SharedModule,
     AppStoreModule,
-    AppRoutingModule,
     environment.production ? [] : [AkitaNgDevtools.forRoot()],
   ],
   bootstrap: [AppComponent],
