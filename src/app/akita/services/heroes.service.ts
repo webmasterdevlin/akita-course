@@ -3,7 +3,7 @@ import { environment } from "src/environments/environment";
 import { HttpClient } from "@angular/common/http";
 import { ID, transaction } from "@datorama/akita";
 import { HeroesStore } from "../stores/heroes.store";
-import { HeroModel } from "../../features/hero/hero.model";
+import { HeroModel } from "src/app/features/hero/hero.model";
 import { catchError, finalize } from "rxjs/operators";
 import { of } from "rxjs";
 

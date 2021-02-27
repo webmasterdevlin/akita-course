@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import {
   VillainsState,
   VillainModel,
-} from "../../features/villain/villain.model";
+} from "src/app/features/villain/villain.model";
 
 @Injectable()
 @StoreConfig({ name: "villains" })
