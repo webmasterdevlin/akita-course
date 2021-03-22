@@ -14,7 +14,7 @@
     style="width: 100%; margin: 5rem 0; min-width: 16rem"
     *ngFor="let villain of villains$ | async"
   >
-    <mat-card style="width: auto">
+    <mat-card data-testid="card" style="width: auto">
       <div *ngIf="editingTracker === villain.id">
         <mat-card-content>
           <app-form

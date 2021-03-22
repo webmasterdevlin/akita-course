@@ -10,12 +10,12 @@
   <div>
     <button mat-button routerLink="/">Home</button>
     <button mat-button [matMenuTriggerFor]="characters">
-      <mat-icon>more_vert</mat-icon>
+      <mat-icon data-testid="more">more_vert</mat-icon>
     </button>
 
     <mat-menu #characters="matMenu">
-      <button mat-menu-item routerLink="/heroes">Heroes</button>
-      <button mat-menu-item routerLink="/villains">Villains</button>
+      <button data-testid="nav-heroes" mat-menu-item routerLink="/heroes">Heroes</button>
+      <button data-testid="nav-villains" mat-menu-item routerLink="/villains">Villains</button>
     </mat-menu>
 
     <span style="margin-right: 1rem"

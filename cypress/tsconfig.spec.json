@@ -1,0 +1,15 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "types":["cypress", "@testing-library/cypress"],
+    "isolatedModules": false,
+    "allowJs": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "skipLibCheck": true
+  },
+  "include": [
+    "./**/*.ts",
+  ],
+  "exclude": []
+}
