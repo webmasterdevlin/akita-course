@@ -14,17 +14,28 @@
     </button>
 
     <mat-menu #characters="matMenu">
-      <button data-testid="nav-heroes" mat-menu-item routerLink="/heroes">Heroes</button>
-      <button data-testid="nav-villains" mat-menu-item routerLink="/villains">Villains</button>
+      <button data-testid="nav-heroes" mat-menu-item routerLink="/heroes">
+        Heroes
+      </button>
+      <button data-testid="nav-villains" mat-menu-item routerLink="/villains">
+        Villains
+      </button>
     </mat-menu>
 
-    <span style="margin-right: 1rem"
+    <span data-testid="total-heroes" style="margin-right: 1rem"
       >Total heroes: {{ totalHeroes$ | async }}</span
     >
-    <span>Total villains: {{ totalVillains$ | async }}</span>
+    <span data-testid="total-villains"
+      >Total villains: {{ totalVillains$ | async }}</span
+    >
   </div>
 
-  <button mat-mini-fab color="default" (click)="handleLoadCharacters()">
+  <button
+    data-testid="refetch-button"
+    mat-mini-fab
+    color="default"
+    (click)="handleLoadCharacters()"
+  >
     <mat-icon>cached</mat-icon>
   </button>
 </mat-toolbar>

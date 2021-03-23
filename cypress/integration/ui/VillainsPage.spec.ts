@@ -2,18 +2,18 @@
 
 const VILLAINS = [
   {
-    firstName: "Lex",
-    lastName: "Luther",
+    id: "7ggew732dw",
+    firstName: "Barry",
+    lastName: "Allen",
     house: "DC",
-    knownAs: "Lex",
-    id: "3290fhe",
+    knownAs: "Flash",
   },
   {
-    firstName: "Max",
-    lastName: "Eisenhardt",
+    id: "43twagfdh",
+    firstName: "Scott",
+    lastName: "Summer",
     house: "Marvel",
-    knownAs: "Magneto",
-    id: "6r8finlfy",
+    knownAs: "Cyclopes",
   },
 ];
 
@@ -33,5 +33,151 @@ describe("Villains Page", () => {
   it("should render villains", () => {
     cy.location("pathname").should("equal", "/villains");
     cy.get("[data-testid=card]").should("have.length", VILLAINS.length);
+  });
+
+  describe("Villain's detail", () => {
+    it("should navigate to villain's detail after clicking a detail button", () => {
+      cy.get("[data-testid=detail-button]").eq(1).click();
+      cy.location("pathname").should("contain", "/villain-detail/");
+    });
+  });
+
+  describe("Soft delete a villain", () => {
+    it("should remove temporarily a card after clicking a soft-delete button", () => {
+      const index = 1;
+      cy.get("[data-testid=soft-delete-button]").eq(index).click();
+      cy.get("[data-testid=card]").should("have.length", VILLAINS.length - 1);
+    });
+
+    it("should remove temporarily a chip after clicking a soft-delete button", () => {
+      const index = 1;
+      cy.get("[data-testid=soft-delete-button]").eq(index).click();
+      cy.get("[data-testid=villain-chip]").should(
+        "have.length",
+        VILLAINS.length - 1
+      );
+    });
+
+    it("should deduct 1 temporarily from the total villains after clicking a soft-delete button", () => {
+      const index = 1;
+      cy.get("[data-testid=soft-delete-button]").eq(index).click();
+      cy.get("[data-testid=total-villains]").should(
+        "contain",
+        VILLAINS.length - 1
+      );
+    });
+  });
+
+  describe("Delete a villain", () => {
+    it("should remove a card after clicking a delete button", () => {
+      const index = 1;
+      cy.get("[data-testid=delete-button]").eq(index).click();
+      cy.get("[data-testid=card]").should("have.length", VILLAINS.length - 1);
+    });
+
+    it("should remove a chip after clicking a delete button", () => {
+      const index = 1;
+      cy.get("[data-testid=delete-button]").eq(index).click();
+      cy.get("[data-testid=villain-chip]").should(
+        "have.length",
+        VILLAINS.length - 1
+      );
+    });
+
+    it("should deduct 1 from the total villains after clicking a delete button", () => {
+      const index = 1;
+      cy.get("[data-testid=delete-button]").eq(index).click();
+      cy.get("[data-testid=total-villains]").should(
+        "contain",
+        VILLAINS.length - 1
+      );
+    });
+  });
+
+  describe("Add a new villain", () => {
+    it("should create a new villain after filling out the form", () => {
+      const firstName = "Bucky";
+      const lastName = "Barnes";
+      const house = "Marvel";
+      const knownAs = "The Winter Soldier";
+
+      cy.get("@FirstName").type(firstName);
+      cy.get("@LastName").type(lastName);
+      cy.get("@House").type(house);
+      cy.get("@KnownAs").type(knownAs);
+
+      cy.postCommand("/villains", {
+        firstName,
+        lastName,
+        house,
+        knownAs,
+      });
+
+      cy.get("@SaveUpdate").click();
+
+      cy.get("[data-testid=card]").should("have.length", VILLAINS.length + 1);
+      cy.get("[data-testid=villain-chip]").should(
+        "have.length",
+        VILLAINS.length + 1
+      );
+      cy.get("[data-testid=total-villains]").contains(VILLAINS.length + 1);
+    });
+  });
+
+  describe("Update an existing villain", () => {
+    it("should go back to rows of villains and not update villain whe cancel is clicked", () => {
+      const index = 0;
+      const editedFirstName = " - edited";
+
+      cy.get("[data-testid=edit-button]").eq(index).click();
+      cy.get("@FirstName").type(editedFirstName);
+
+      cy.get("[data-testid=cancel-button]").click();
+      cy.get("[data-testid=card-title]")
+        .eq(index)
+        .should("not.have.value", "edited");
+    });
+
+    it("should update an existing villain", () => {
+      const index = 0;
+      const villain = VILLAINS[index];
+      const editedFirstName = " - edited";
+
+      cy.get("[data-testid=edit-button]").eq(index).click();
+      cy.get("@FirstName").type(editedFirstName);
+      cy.putCommand(`/villains`, { ...villain, firstName: editedFirstName });
+
+      cy.get("@SaveUpdate").click();
+      cy.get("[data-testid=cancel-button]").click();
+      cy.get("[data-testid=card-title]").eq(index).contains("edited");
+    });
+  });
+
+  describe("Refetch", () => {
+    it("should refetch all villains after soft deleting all villains", () => {
+      cy.get("[data-testid=soft-delete-button]").each(($el) =>
+        cy.wrap($el).click()
+      );
+      cy.get("[data-testid=card]").should("not.exist");
+      cy.get("[data-testid=refetch-button]").click();
+      cy.get("[data-testid=card]").should("have.length", VILLAINS.length);
+      cy.get("[data-testid=villain-chip]").should(
+        "have.length",
+        VILLAINS.length
+      );
+      cy.get("[data-testid=total-villains]").contains(VILLAINS.length);
+    });
+
+    it("should refetch all villains after deleting all villains", () => {
+      cy.get("[data-testid=delete-button]").each(($el) => cy.wrap($el).click());
+      cy.get("[data-testid=card]").should("not.exist");
+      cy.get("[data-testid=refetch-button]").click();
+      cy.get("[data-testid=card]").should("have.length", VILLAINS.length);
+      cy.get("[data-testid=villain-chip]").should(
+        "have.length",
+        VILLAINS.length
+      );
+      cy.get("[data-testid=total-villains]").contains(VILLAINS.length);
+    });
   });
 });

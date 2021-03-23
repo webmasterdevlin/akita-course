@@ -27,10 +27,17 @@ Cypress.Commands.add("postCommand", (url: string, requestBody: any) => {
   });
 });
 
+Cypress.Commands.add("putCommand", (url: string, requestBody: any) => {
+  cy.intercept("PUT", url, {
+    statusCode: 200,
+    body: requestBody,
+  });
+});
+
 Cypress.Commands.add("SetupInputFieldsCommand", () => {
   cy.get("[data-testid=firstName]").as("FirstName");
   cy.get("[data-testid=lastName]").as("LastName");
   cy.get("[data-testid=house]").as("House");
   cy.get("[data-testid=knownAs]").as("KnownAs");
-  cy.get("[data-testid=save-character]").as("Save");
+  cy.get("[data-testid=save-update-button]").as("SaveUpdate");
 });

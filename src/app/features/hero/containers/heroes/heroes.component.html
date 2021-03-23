@@ -26,7 +26,7 @@
       </div>
       <div *ngIf="editingTracker !== hero.id">
         <mat-card-header>
-          <mat-card-title
+          <mat-card-title data-testid="card-title"
             >{{ hero.firstName }} {{ hero.lastName }} is
             {{ hero.knownAs }}</mat-card-title
           >
@@ -40,6 +40,7 @@
       </mat-card-content>
       <mat-card-actions>
         <button
+          data-testid="cancel-button"
           mat-button
           color="primary"
           *ngIf="editingTracker === hero.id"
@@ -49,6 +50,7 @@
         </button>
 
         <button
+          data-testid="edit-button"
           mat-raised-button
           color="primary"
           *ngIf="editingTracker !== hero.id"
@@ -57,6 +59,7 @@
           EDIT
         </button>
         <button
+          data-testid="detail-button"
           mat-raised-button
           color="info"
           (click)="handleNavigateHeroDetail(hero.id)"
@@ -64,6 +67,7 @@
           DETAIL
         </button>
         <button
+          data-testid="soft-delete-button"
           mat-raised-button
           color="accent"
           (click)="handleSoftDeleteHero(hero.id)"
@@ -71,6 +75,7 @@
           SOFT DELETE
         </button>
         <button
+          data-testid="delete-button"
           mat-raised-button
           color="warn"
           (click)="handleDeleteHero(hero.id)"
