@@ -27,13 +27,6 @@ Cypress.Commands.add("postCommand", (url: string, requestBody: any) => {
   });
 });
 
-Cypress.Commands.add("putCommand", (url: string, requestBody: any) => {
-  cy.intercept("PUT", url, {
-    statusCode: 200,
-    body: requestBody,
-  });
-});
-
 Cypress.Commands.add("SetupInputFieldsCommand", () => {
   cy.get("[data-testid=firstName]").as("FirstName");
   cy.get("[data-testid=lastName]").as("LastName");

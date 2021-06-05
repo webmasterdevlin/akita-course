@@ -124,35 +124,6 @@ describe("Villains Page", () => {
     });
   });
 
-  describe("Update an existing villain", () => {
-    it("should go back to rows of villains and not update villain whe cancel is clicked", () => {
-      const index = 0;
-      const editedFirstName = " - edited";
-
-      cy.get("[data-testid=edit-button]").eq(index).click();
-      cy.get("@FirstName").type(editedFirstName);
-
-      cy.get("[data-testid=cancel-button]").click();
-      cy.get("[data-testid=card-title]")
-        .eq(index)
-        .should("not.have.value", "edited");
-    });
-
-    it("should update an existing villain", () => {
-      const index = 0;
-      const villain = VILLAINS[index];
-      const editedFirstName = " - edited";
-
-      cy.get("[data-testid=edit-button]").eq(index).click();
-      cy.get("@FirstName").type(editedFirstName);
-      cy.putCommand(`/villains`, { ...villain, firstName: editedFirstName });
-
-      cy.get("@SaveUpdate").click();
-      cy.get("[data-testid=cancel-button]").click();
-      cy.get("[data-testid=card-title]").eq(index).contains("edited");
-    });
-  });
-
   describe("Refetch", () => {
     it("should refetch all villains after soft deleting all villains", () => {
       cy.get("[data-testid=soft-delete-button]").each(($el) =>

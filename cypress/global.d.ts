@@ -5,7 +5,6 @@ declare namespace Cypress {
     getCommand(url: string, responseBody: Array<any>): Chainable<any>;
     deleteCommand(url: string): Chainable<any>;
     postCommand(url: string, requestBody: any): Chainable<any>;
-    putCommand(url: string, requestBody: any): Chainable<any>;
     SetupInputFieldsCommand(): Chainable<any>;
     NavigateByTestIdCommand(testId: string): Chainable<any>;
   }

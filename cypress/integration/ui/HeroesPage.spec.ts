@@ -115,35 +115,6 @@ describe("Heroes Page", () => {
     });
   });
 
-  describe("Update an existing hero", () => {
-    it("should go back to rows of heroes and not update hero whe cancel is clicked", () => {
-      const index = 0;
-      const editedFirstName = " - edited";
-
-      cy.get("[data-testid=edit-button]").eq(index).click();
-      cy.get("@FirstName").type(editedFirstName);
-
-      cy.get("[data-testid=cancel-button]").click();
-      cy.get("[data-testid=card-title]")
-        .eq(index)
-        .should("not.have.value", "edited");
-    });
-
-    it("should update an existing hero", () => {
-      const index = 0;
-      const hero = HEROES[index];
-      const editedFirstName = " - edited";
-
-      cy.get("[data-testid=edit-button]").eq(index).click();
-      cy.get("@FirstName").type(editedFirstName);
-      cy.putCommand(`/heroes`, { ...hero, firstName: editedFirstName });
-
-      cy.get("@SaveUpdate").click();
-      cy.get("[data-testid=cancel-button]").click();
-      cy.get("[data-testid=card-title]").eq(index).contains("edited");
-    });
-  });
-
   describe("Refetch", () => {
     it("should refetch all heroes after soft deleting all heroes", () => {
       cy.get("[data-testid=soft-delete-button]").each(($el) =>
