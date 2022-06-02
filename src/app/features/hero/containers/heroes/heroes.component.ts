@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { HeroModel } from "../../hero.model";
 import { HeroesQuery } from "src/app/akita/queries/heroes.query";
@@ -15,12 +15,12 @@ export class HeroesComponent implements OnInit {
   heroes$: Observable<HeroModel[]>;
   isLoading$: Observable<boolean>;
 
-  itemForm: FormGroup;
-  editedForm: FormGroup;
+  itemForm: UntypedFormGroup;
+  editedForm: UntypedFormGroup;
   editingTracker = "0";
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private heroesQuery: HeroesQuery,
     private heroService: HeroesService

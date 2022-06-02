@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { VillainModel } from "../../villain.model";
 import { VillainsQuery } from "src/app/akita/queries/villains.query";
@@ -15,12 +15,12 @@ export class VillainsComponent implements OnInit {
   villains$: Observable<VillainModel[]>;
   isLoading$: Observable<boolean>;
 
-  itemForm: FormGroup;
-  editedForm: FormGroup;
+  itemForm: UntypedFormGroup;
+  editedForm: UntypedFormGroup;
   editingTracker = "0";
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private villainsQuery: VillainsQuery,
     private villainService: VillainsService
