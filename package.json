@@ -51,7 +51,7 @@
     "eslint-plugin-testing-library": "^4.12.4",
     "husky": "^4.3.8",
     "istanbul-lib-coverage": "^3.2.0",
-    "json-server": "^0.17.0",
+    "json-server": "^0.17.1",
     "lint-staged": "^11.2.6",
     "nyc": "^15.1.0",
     "prettier": "^2.6.2",
